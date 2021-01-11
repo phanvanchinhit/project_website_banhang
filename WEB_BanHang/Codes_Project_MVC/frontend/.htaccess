@@ -1,0 +1,50 @@
+#frontend/.htaccess
+#File .htaccess mục đích chính dùng để Rewrite URL
+#Các file mà ko có tên file thì mặc định đang ẩn với Window
+#Vẻ bản chất, định nghĩa ra các url theo ý muốn, các url khi đã rewrite
+#sẽ thân thiện với user và tốt cho SEO
+#Với 1 website thực tế, rewrite url là bắt buộc với frontend
+#Cú pháp của file này rất khó, và chỉ cần sai cú pháp là trang sẽ die
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME}% !-f
+RewriteCond %{REQUEST_FILENAME}% !-d
+#Khi user truy cập url đã rewrite, về bản chất vẫn phải có 1 url
+#theo chuẩn MVC xử lý
+#Cú pháp khai báo rewrite 1 url:
+#RewriteRule <url-rewrite> <url-mvc-tương-ứng>
+#Viết rewrite cho trang Giỏ hàng của bạn
+RewriteRule gio-hang-cua-ban.html index.php?controller=cart&action=index
+#Viết rewrite cho chức năng Xóa sản phẩm khỏi giỏ hàng
+#Do xóa sản phẩm sẽ theo id, nên url rewrite sẽ có 1 tham số dưới dạng
+# chuỗi regex, [0-9]{1,}
+RewriteRule xoa-san-pham/([0-9]+).html index.php?controller=cart&action=delete&id=$1
+RewriteRule chi-tiet-tin/(.*)/([0-9]+).html index.php?controller=new&action=detail&title=$1&id=$2
+#rewirite cho chức năng bỏ thích san phẩm
+RewriteRule bo-thich-san-pham/([0-9]+).html index.php?controller=favourite&action=delete&id=$1
+#rewrite cho chức năng chi tiết sản phẩm
+RewriteRule chi-tiet-san-pham/(.*)/([0-9]{1,}).html index.php?controller=product&action=detail&slug=$1&id=$2
+#viết Rewrite cho chức nagw thanh toán
+
+RewriteRule thanh-toan.html index.php?controller=payment&action=index
+
+#Rewrite cho trang thanh toán trực tuyến
+RewriteRule thanh-toan-online.html index.php?controller=payment&action=online
+
+#rewrite cho cảm ơn đã mua hàng
+RewriteRule cam-on.html index.php?controller=payment&action=thank
+
+RewriteRule login.html index.php?controller=login&action=login
+
+RewriteRule detail_customer/([0-9]+).html index.php?controller=login&action=detail&id=$1
+#rewriteRule cho phiếu contact
+RewriteRule contact.html index.php?controller=contact&action=index
+#rewriteRule cho loguot tài khoản
+
+RewriteRule logout.html index.php?controller=login&action=logout
+#rewriteRule cho danh sách sản phẩm
+RewriteRule danh-sach-san-pham.html index.php?controller=product&action=filter
+
+#rewriteRule cho sản phẩm ưu thích
+RewriteRule san-pham-yeu-thich.html index.php?controller=favourite&action=index
+#rewriteRuler cho sản phẩm  từng loại
+#RewriteRule tat-ca-san-pham/([0-9]+).html index.php?controller=home&action=index&id=$1
